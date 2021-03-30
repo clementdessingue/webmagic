@@ -8,9 +8,12 @@ import us.codecraft.webmagic.downloader.Downloader;
 import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.processor.SimplePageProcessor;
+import us.codecraft.webmagic.scheduler.DuplicateRemovedScheduler;
+import us.codecraft.webmagic.scheduler.QueueScheduler;
 import us.codecraft.webmagic.scheduler.Scheduler;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +101,7 @@ public class SpiderTest {
     }
     
     @Test
-    public void shouldSetStartsUrls() {
+    public void tSetStartsUrls() {
     	Spider spider = new Spider(new SimplePageProcessor(""));
     	List<String> urls =  new ArrayList<String>();
     	urls.add("http://url1.fr");
@@ -120,6 +123,52 @@ public class SpiderTest {
     	urls.add("http://url2.fr");
     	
     	spider.startUrls(urls);
+    }
+    
+    @Test
+    public void testSetScheduleWithNoOldScheduler() {
+    	Spider spider = new Spider(new SimplePageProcessor(""));
+    	spider.setScheduler(null);
+    	
+    	Scheduler oldScheduler = spider.getScheduler();
+    	assertEquals(null, oldScheduler);
+    	
+    	Scheduler newScheduler = new QueueScheduler();
+    	Spider spiderTest = spider.setScheduler(newScheduler);
+    	assertSame("setSchduler don't return the same Scheduler when there isn't an old sheduler.", newScheduler, spiderTest.getScheduler());
+    }
+    
+    @Test
+    public void testSetScheduleWithAnOldScheduler() {
+    	Spider spider = new Spider(new SimplePageProcessor("http://my.oschina.net/*blog/*"));
+    	spider.getScheduler().push(new Request("http://url1.fr"), spider);
+    	spider.getScheduler().push(new Request("http://url2.fr"), spider);
+    	
+    	QueueScheduler newScheduler = new QueueScheduler();
+    	
+    	spider.setScheduler(newScheduler);
+    	
+    	assertEquals(2, newScheduler.getTotalRequestsCount(spider));
+    	assertEquals(new Request("http://url1.fr"), newScheduler.poll(spider));
+    	assertEquals(new Request("http://url2.fr"), newScheduler.poll(spider));
+    }
+    
+    @Test
+    public void testSetScheduleWithANotEmptyNewScheduler() {
+    	Spider spider = new Spider(new SimplePageProcessor("http://my.oschina.net/*blog/*"));
+    	spider.getScheduler().push(new Request("http://url1.fr"), spider);
+    	spider.getScheduler().push(new Request("http://url2.fr"), spider);
+    	
+    	QueueScheduler newScheduler = new QueueScheduler();
+    	newScheduler.push(new Request("http://url3.fr"), spider);
+    	
+    	spider.setScheduler(newScheduler);
+    	
+    	assertEquals(3, newScheduler.getTotalRequestsCount(spider));
+    	//The URL that is already in the new Scheduler still conserve it's position.
+    	assertEquals(new Request("http://url3.fr"), newScheduler.poll(spider)); 
+    	assertEquals(new Request("http://url1.fr"), newScheduler.poll(spider));
+    	assertEquals(new Request("http://url2.fr"), newScheduler.poll(spider));
     }
     
     
