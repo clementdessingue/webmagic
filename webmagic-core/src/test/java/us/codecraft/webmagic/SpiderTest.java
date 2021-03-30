@@ -2,12 +2,18 @@ package us.codecraft.webmagic;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
+import junit.framework.Assert;
 import us.codecraft.webmagic.downloader.Downloader;
 import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.processor.SimplePageProcessor;
 import us.codecraft.webmagic.scheduler.Scheduler;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -90,4 +96,19 @@ public class SpiderTest {
         }).thread(10);
         spider.run();
     }
+    
+    @Test
+    public void shouldSetStartsUrls() {
+    	Spider spider = new Spider(new SimplePageProcessor(""));
+    	List<String> urls =  new ArrayList<String>();
+    	urls.add("http://url1.fr");
+    	urls.add("http://url2.fr");
+    	
+    	spider.startUrls(urls);
+    	
+    	assertEquals(urls.get(0), spider.startRequests.get(0).getUrl());
+    	assertEquals(urls.get(1), spider.startRequests.get(1).getUrl());
+    }
+    
+    
 }
