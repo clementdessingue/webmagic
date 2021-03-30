@@ -110,5 +110,17 @@ public class SpiderTest {
     	assertEquals(urls.get(1), spider.startRequests.get(1).getUrl());
     }
     
+    @Test(expected = IllegalStateException.class)
+    public void shouldNotBeRunning() {
+    	Spider spider = new Spider(new SimplePageProcessor("http://my.oschina.net/*blog/*"));
+    	spider.stat.set(spider.STAT_RUNNING);
+    	
+    	List<String> urls =  new ArrayList<String>();
+    	urls.add("http://url1.fr");
+    	urls.add("http://url2.fr");
+    	
+    	spider.startUrls(urls);
+    }
+    
     
 }
