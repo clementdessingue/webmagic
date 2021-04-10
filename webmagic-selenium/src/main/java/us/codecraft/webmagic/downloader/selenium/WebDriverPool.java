@@ -69,7 +69,12 @@ class WebDriverPool {
 		if (System.getProperty("selenuim_config")!=null){
 			configFile = System.getProperty("selenuim_config");
 		}
-		sConfig.load(new FileReader(configFile));
+		
+		try(FileReader fr = new FileReader(configFile)) {
+			sConfig.load(fr);
+		} catch (Exception e) {
+			logger.error("Error occured with the FileReader in the try with ressources ");
+		}
 
 		// Prepare capabilities
 		sCaps = new DesiredCapabilities();
