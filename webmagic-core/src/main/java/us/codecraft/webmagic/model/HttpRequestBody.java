@@ -64,6 +64,13 @@ public class HttpRequestBody implements Serializable {
         this.encoding = encoding;
     }
 
+    /**
+     * Retrieve the body of an html page from a json file in the form of a String. 
+     * 
+     * @param json
+     * @param encoding
+     * @return HttpRequestBody
+     */
     public static HttpRequestBody json(String json, String encoding) {
         try {
             return new HttpRequestBody(json.getBytes(encoding), ContentType.JSON, encoding);
@@ -72,6 +79,13 @@ public class HttpRequestBody implements Serializable {
         }
     }
 
+    /**
+     * Retrieve the body of an html page from a xml file in the form of a String. 
+     * 
+     * @param xml
+     * @param encoding
+     * @return HttpRequestBody
+     */
     public static HttpRequestBody xml(String xml, String encoding) {
         try {
             return new HttpRequestBody(xml.getBytes(encoding), ContentType.XML, encoding);
@@ -80,10 +94,25 @@ public class HttpRequestBody implements Serializable {
         }
     }
 
+    /**
+     * Retrieve the body of an html page when this body custom.
+     * 
+     * @param body
+     * @param contentType
+     * @param encoding
+     * @return HttpRequestBody
+     */
     public static HttpRequestBody custom(byte[] body, String contentType, String encoding) {
         return new HttpRequestBody(body, contentType, encoding);
     }
 
+    /**
+     * Retrieve the body of an html page when this body is an html form.
+     * 
+     * @param params
+     * @param encoding
+     * @return HttpRequestBody
+     */
     public static HttpRequestBody form(Map<String,Object> params, String encoding){
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(params.size());
         for (Map.Entry<String, Object> entry : params.entrySet()) {

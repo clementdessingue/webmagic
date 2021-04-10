@@ -62,6 +62,10 @@ public class Html extends HtmlNode {
     }
 
     /**
+     * Use a Selector to select the content of a document.
+     * If more than 1 document correspond to the selector, 
+     * it returns only the first one. 
+     * 
      * @param selector selector
      * @return result
      */
@@ -74,6 +78,14 @@ public class Html extends HtmlNode {
         }
     }
 
+    
+    /**
+     * Use a Selector to select the content of all the document 
+     * that correspond to the selector.
+     * 
+     * @param selector
+     * @return result
+     */
     public List<String> selectDocumentForList(Selector selector) {
         if (selector instanceof ElementSelector) {
             ElementSelector elementSelector = (ElementSelector) selector;

@@ -76,6 +76,11 @@ public class Proxy {
         return password;
     }
 
+    /**
+     * Construct an URI from the information contained in this Instance of Proxy.
+     * 
+     * @return URI
+     */
     public URI toURI() {
         final StringBuilder userInfoBuffer = new StringBuilder();
         if (username != null) {

@@ -332,6 +332,11 @@ public class Site {
         return this;
     }
 
+    /**
+     * Create a new task with the Domain of the current Site
+     * or a random String as uuid.
+     * @return a task
+     */
     public Task toTask() {
         return new Task() {
             @Override

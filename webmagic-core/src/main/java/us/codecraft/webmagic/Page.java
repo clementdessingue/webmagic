@@ -56,12 +56,21 @@ public class Page {
     public Page() {
     }
 
+    /**
+     * Force the result of the download to false.
+     * @return An empty page
+     */
     public static Page fail(){
         Page page = new Page();
         page.setDownloadSuccess(false);
         return page;
     }
 
+    /**
+     * Set if the current page should be skipped.
+     * @param skip
+     * @return the current page 
+     */
     public Page setSkip(boolean skip) {
         resultItems.setSkip(skip);
         return this;

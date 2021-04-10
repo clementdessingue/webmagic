@@ -71,10 +71,12 @@ public class HttpClientDownloader extends AbstractDownloader {
 
     @Override
     public Page download(Request request, Task task) {
+    	//Check if there is a Site
         if (task == null || task.getSite() == null) {
             throw new NullPointerException("task or site can not be null");
         }
         CloseableHttpResponse httpResponse = null;
+        //Retrieve an httpClient for the Site which will make the request 
         CloseableHttpClient httpClient = getHttpClient(task.getSite());
         Proxy proxy = proxyProvider != null ? proxyProvider.getProxy(task) : null;
         HttpClientRequestContext requestContext = httpUriRequestConverter.convert(request, task.getSite(), proxy);

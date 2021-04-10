@@ -106,6 +106,13 @@ public class HttpClientGenerator {
         return this;
     }
 
+    /**
+     * Retrieve an HttpClient associate to a Site which is closeable and
+     * will be used to make request.  
+     * 
+     * @param site
+     * @return CloseableHttpClient
+     */
     public CloseableHttpClient getClient(Site site) {
         return generateClient(site);
     }
