@@ -24,14 +24,14 @@ public @interface ExtractBy {
     /**
      * types of extractor expressions
      */
-    public static enum Type {XPath, Regex, Css, JsonPath}
+    public static enum Type {XPATH, REGEX, CSS, JSONPATH}
 
     /**
      * Extractor type, support XPath, CSS Selector and regex.
      *
      * @return extractor type
      */
-    Type type() default Type.XPath;
+    Type type() default Type.XPATH;
 
     /**
      * Define whether the field can be null.<br>
@@ -48,12 +48,12 @@ public @interface ExtractBy {
         /**
          * extract from the content extracted by class extractor
          */
-        SelectedHtml,
+        SELECTEDHTML,
         /**
          * extract from the raw html
          */
-        RawHtml,
-        RawText
+        RAWHTML,
+        RAWTEXT
     }
 
     /**
@@ -62,7 +62,7 @@ public @interface ExtractBy {
      *
      * @return the source for extracting
      */
-    Source source() default Source.SelectedHtml;
+    Source source() default Source.SELECTEDHTML;
 
     /**
      * Define whether the extractor return more than one result.
@@ -72,6 +72,7 @@ public @interface ExtractBy {
      * @deprecated since 0.4.2
      * @return whether the extractor return more than one result
      */
+    @Deprecated
     boolean multi() default false;
 
 }

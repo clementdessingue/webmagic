@@ -13,21 +13,23 @@ import java.util.List;
  * @since 0.2.1
  */
 public class ExtractorUtils {
+	
+	private ExtractorUtils() {}
 
     public static Selector getSelector(ExtractBy extractBy) {
         String value = extractBy.value();
         Selector selector;
         switch (extractBy.type()) {
-            case Css:
+            case CSS:
                 selector = new CssSelector(value);
                 break;
-            case Regex:
+            case REGEX:
                 selector = new RegexSelector(value);
                 break;
-            case XPath:
+            case XPATH:
                 selector = new XpathSelector(value);
                 break;
-            case JsonPath:
+            case JSONPATH:
                 selector = new JsonPathSelector(value);
                 break;
             default:

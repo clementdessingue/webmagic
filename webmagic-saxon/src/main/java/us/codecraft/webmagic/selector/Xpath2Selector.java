@@ -58,17 +58,14 @@ public class Xpath2Selector implements Selector {
 
         INSTANCE;
 
-        private final Map<String, String> prefix2NamespaceMap = new ConcurrentHashMap<String, String>();
+        private final Map<String, String> prefix2NamespaceMap = new ConcurrentHashMap<>();
 
-        private final Map<String, List<String>> namespace2PrefixMap = new ConcurrentHashMap<String, List<String>>();
+        private final Map<String, List<String>> namespace2PrefixMap = new ConcurrentHashMap<>();
 
         private void put(String prefix, String namespaceURI) {
             prefix2NamespaceMap.put(prefix, namespaceURI);
             List<String> prefixes = namespace2PrefixMap.get(namespaceURI);
-            if (prefixes == null) {
-                prefixes = new ArrayList<String>();
-                namespace2PrefixMap.put(namespaceURI, prefixes);
-            }
+            namespace2PrefixMap.computeIfAbsent(namespaceURI, k -> new ArrayList<String>());
             prefixes.add(prefix);
         }
 
@@ -85,7 +82,7 @@ public class Xpath2Selector implements Selector {
         @Override
         public String getPrefix(String namespaceURI) {
             List<String> prefixes = namespace2PrefixMap.get(namespaceURI);
-            if (prefixes == null || prefixes.size() < 1) {
+            if (prefixes == null || prefixes.isEmpty()) {
                 return null;
             }
             return prefixes.get(0);
@@ -94,7 +91,7 @@ public class Xpath2Selector implements Selector {
         @Override
         public Iterator getPrefixes(String namespaceURI) {
             List<String> prefixes = namespace2PrefixMap.get(namespaceURI);
-            if (prefixes == null || prefixes.size() < 1) {
+            if (prefixes == null || prefixes.isEmpty()) {
                 return null;
             }
             return prefixes.iterator();
@@ -144,7 +141,7 @@ public class Xpath2Selector implements Selector {
 
     @Override
     public List<String> selectList(String text) {
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
         try {
             HtmlCleaner htmlCleaner = new HtmlCleaner();
             TagNode tagNode = htmlCleaner.clean(text);

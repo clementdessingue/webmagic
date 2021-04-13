@@ -18,7 +18,7 @@ public class OschinaBlog{
     @ExtractBy("//title")
     private String title;
 
-    @ExtractBy(value = "div.BlogContent",type = ExtractBy.Type.Css)
+    @ExtractBy(value = "div.BlogContent",type = ExtractBy.Type.CSS)
     private String content;
 
     @ExtractBy(value = "//div[@class='BlogTags']/a/text()", multi = true)
@@ -29,12 +29,8 @@ public class OschinaBlog{
                 .setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36")
                 .setSleepTime(0)
                 .setRetryTimes(3)
-                ,new PageModelPipeline() {
-            @Override
-            public void process(Object o, Task task) {
-
-            }
-        }, OschinaBlog.class).thread(10).addUrl("http://my.oschina.net/flashsword/blog").run();
+                ,(Object o, Task task)  -> {}
+                , OschinaBlog.class).thread(10).addUrl("http://my.oschina.net/flashsword/blog").run();
     }
 
     public String getTitle() {

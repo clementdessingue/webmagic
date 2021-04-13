@@ -24,7 +24,7 @@ public abstract class AbstractSelectable implements Selectable {
     }
 
     protected Selectable select(Selector selector, List<String> strings) {
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
         for (String string : strings) {
             String result = selector.select(string);
             if (result != null) {
@@ -35,7 +35,7 @@ public abstract class AbstractSelectable implements Selectable {
     }
 
     protected Selectable selectList(Selector selector, List<String> strings) {
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
         for (String string : strings) {
             List<String> result = selector.selectList(string);
             results.addAll(result);
@@ -91,7 +91,7 @@ public abstract class AbstractSelectable implements Selectable {
     }
 
     public String getFirstSourceText() {
-        if (getSourceTexts() != null && getSourceTexts().size() > 0) {
+        if (getSourceTexts() != null && getSourceTexts().isEmpty()) {
             return getSourceTexts().get(0);
         }
         return null;
@@ -104,6 +104,6 @@ public abstract class AbstractSelectable implements Selectable {
 
     @Override
     public boolean match() {
-        return getSourceTexts() != null && getSourceTexts().size() > 0;
+        return getSourceTexts() != null && getSourceTexts().isEmpty();
     }
 }

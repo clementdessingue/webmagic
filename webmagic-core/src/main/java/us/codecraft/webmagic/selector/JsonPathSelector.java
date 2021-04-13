@@ -32,8 +32,8 @@ public class JsonPathSelector implements Selector {
             return null;
         }
         if (object instanceof List) {
-            List list = (List) object;
-            if (list != null && list.size() > 0) {
+            List<Object> list = (List) object;
+            if (list.size() > 0) {
                 return toString(list.iterator().next());
             }
         }

@@ -26,12 +26,12 @@ public @interface ComboExtract {
          * All extractors will be arranged as a pipeline. <br>
          * The next extractor uses the result of the previous as source.
          */
-        And,
+        AND,
         /**
          * All extractors will do extracting separately, <br>
          * and the results of extractors will combined as the final result.
          */
-        Or;
+        OR;
     }
 
     /**
@@ -39,7 +39,7 @@ public @interface ComboExtract {
      *
      * @return combining operation of extractors
      */
-    Op op() default Op.And;
+    Op op() default Op.AND;
 
     /**
      * Define whether the field can be null.<br>
@@ -56,11 +56,11 @@ public @interface ComboExtract {
         /**
          * extract from the content extracted by class extractor
          */
-        SelectedHtml,
+        SELECTEDHTML,
         /**
          * extract from the raw html
          */
-        RawHtml
+        RAWHTML
     }
 
     /**
@@ -69,7 +69,7 @@ public @interface ComboExtract {
      *
      * @return the source for extracting
      */
-    Source source() default Source.SelectedHtml;
+    Source source() default Source.SELECTEDHTML;
 
     /**
      * Define whether the extractor return more than one result.
@@ -79,6 +79,7 @@ public @interface ComboExtract {
      * @deprecated since 0.4.2
      * @return whether the extractor return more than one result
      */
+    @Deprecated
     boolean multi() default false;
 
 }

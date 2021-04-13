@@ -12,6 +12,8 @@ import java.util.Map;
  *         Date: 17/3/27
  */
 public abstract class HttpClientUtils {
+	
+	private HttpClientUtils() {}
 
     public static Map<String,List<String>> convertHeaders(Header[] headers){
         Map<String,List<String>> results = new HashMap<String, List<String>>();

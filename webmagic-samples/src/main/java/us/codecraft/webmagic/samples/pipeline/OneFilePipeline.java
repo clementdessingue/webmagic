@@ -15,8 +15,6 @@ import java.util.Map;
  */
 public class OneFilePipeline extends FilePersistentBase implements Pipeline {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
     private PrintWriter printWriter;
 
     public OneFilePipeline() throws FileNotFoundException, UnsupportedEncodingException {

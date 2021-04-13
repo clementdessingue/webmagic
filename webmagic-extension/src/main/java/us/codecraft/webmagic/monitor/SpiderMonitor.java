@@ -25,10 +25,6 @@ public class SpiderMonitor {
 
     private static SpiderMonitor INSTANCE = new SpiderMonitor();
 
-    private AtomicBoolean started = new AtomicBoolean(false);
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
     private MBeanServer mbeanServer;
 
     private String jmxServerName;
@@ -105,7 +101,6 @@ public class SpiderMonitor {
     }
 
     protected void registerMBean(SpiderStatusMXBean spiderStatus) throws MalformedObjectNameException, InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException {
-//        ObjectName objName = new ObjectName(jmxServerName + ":name=" + spiderStatus.getName());
         ObjectName objName = new ObjectName(jmxServerName + ":name=" + UrlUtils.removePort(spiderStatus.getName()));
         mbeanServer.registerMBean(spiderStatus, objName);
     }

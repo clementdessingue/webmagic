@@ -18,8 +18,10 @@ import java.nio.charset.Charset;
  * @since 0.6.2
  */
 public abstract class CharsetUtils {
-
+	
     private static Logger logger = LoggerFactory.getLogger(CharsetUtils.class);
+    
+	private CharsetUtils() {}
 
     public static String detectCharset(String contentType, byte[] contentBytes) throws IOException {
         String charset;
@@ -40,9 +42,10 @@ public abstract class CharsetUtils {
             for (Element link : links) {
                 // 2.1、html4.01 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                 String metaContent = link.attr("content");
-                String metaCharset = link.attr("charset");
-                if (metaContent.indexOf("charset") != -1) {
-                    metaContent = metaContent.substring(metaContent.indexOf("charset"), metaContent.length());
+                String charsetstring = "charset";
+                String metaCharset = link.attr(charsetstring);
+                if (metaContent.indexOf(charsetstring) != -1) {
+                    metaContent = metaContent.substring(metaContent.indexOf(charsetstring), metaContent.length());
                     charset = metaContent.split("=")[1];
                     break;
                 }
@@ -54,7 +57,6 @@ public abstract class CharsetUtils {
             }
         }
         logger.debug("Auto get charset: {}", charset);
-        // 3、todo use tools as cpdetector for content decode
         return charset;
     }
     

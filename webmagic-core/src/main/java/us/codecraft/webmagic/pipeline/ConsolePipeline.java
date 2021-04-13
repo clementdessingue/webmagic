@@ -5,6 +5,8 @@ import us.codecraft.webmagic.Task;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 /**
  * Write results in console.<br>
  * Usually used in test.
@@ -16,9 +18,10 @@ public class ConsolePipeline implements Pipeline {
 
     @Override
     public void process(ResultItems resultItems, Task task) {
-        System.out.println("get page: " + resultItems.getRequest().getUrl());
+    	Logger logger = Logger.getLogger(getClass());
+    	logger.info("get page: " + resultItems.getRequest().getUrl());
         for (Map.Entry<String, Object> entry : resultItems.getAll().entrySet()) {
-            System.out.println(entry.getKey() + ":\t" + entry.getValue());
+            logger.info(entry.getKey() + ":\t" + entry.getValue());
         }
     }
 }

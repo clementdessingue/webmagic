@@ -107,12 +107,7 @@ public class FileCacheQueueScheduler extends DuplicateRemovedScheduler implement
 
     private void initFlushThread() {
     	flushThreadPool = Executors.newScheduledThreadPool(1);
-    	flushThreadPool.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                flush();
-            }
-        }, 10, 10, TimeUnit.SECONDS);
+    	flushThreadPool.scheduleAtFixedRate(() -> flush(), 10, 10, TimeUnit.SECONDS);
     }
 
     private void initWriter() {
@@ -130,10 +125,9 @@ public class FileCacheQueueScheduler extends DuplicateRemovedScheduler implement
             urls = new LinkedHashSet<String>();
             readCursorFile();
             readUrlFile();
-            // initDuplicateRemover();
         } catch (FileNotFoundException e) {
             //init
-            logger.info("init cache file " + getFileName(fileUrlAllName));
+            logger.info("init cache file {}", getFileName(fileUrlAllName));
         } catch (IOException e) {
             logger.error("init file error", e);
         }
@@ -141,9 +135,7 @@ public class FileCacheQueueScheduler extends DuplicateRemovedScheduler implement
 
     private void readUrlFile() throws IOException {
         String line;
-        BufferedReader fileUrlReader = null;
-        try {
-            fileUrlReader = new BufferedReader(new FileReader(getFileName(fileUrlAllName)));
+        try (BufferedReader fileUrlReader = new BufferedReader(new FileReader(getFileName(fileUrlAllName)))) {
             int lineReaded = 0;
             while ((line = fileUrlReader.readLine()) != null) {
                 urls.add(line.trim());
@@ -152,25 +144,15 @@ public class FileCacheQueueScheduler extends DuplicateRemovedScheduler implement
                     queue.add(deserializeRequest(line));
                 }
             }
-        } finally {
-            if (fileUrlReader != null) {
-                IOUtils.closeQuietly(fileUrlReader);
-            }
         }
     }
 
     private void readCursorFile() throws IOException {
-        BufferedReader fileCursorReader = null;
-        try {
-        	fileCursorReader = new BufferedReader(new FileReader(getFileName(fileCursor)));
+        try (BufferedReader fileCursorReader = new BufferedReader(new FileReader(getFileName(fileCursor)))) {
             String line;
             //read the last number
             while ((line = fileCursorReader.readLine()) != null) {
                 cursor = new AtomicInteger(NumberUtils.toInt(line));
-            }
-        } finally {
-            if (fileCursorReader != null) {
-                IOUtils.closeQuietly(fileCursorReader);
             }
         }
     }

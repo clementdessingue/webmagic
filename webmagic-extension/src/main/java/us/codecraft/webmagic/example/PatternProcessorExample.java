@@ -17,7 +17,7 @@ import us.codecraft.webmagic.handler.RequestMatcher;
  */
 public class PatternProcessorExample {
 
-    private static Logger log = LoggerFactory.getLogger(PatternProcessorExample.class);
+    private static Logger logger = LoggerFactory.getLogger(PatternProcessorExample.class);
 
     public static void main(String... args) {
 
@@ -32,8 +32,9 @@ public class PatternProcessorExample {
 
             @Override
             public RequestMatcher.MatchOther processResult(ResultItems resultItems, Task task) {
-                log.info("Extracting from repo" + resultItems.getRequest());
-                System.out.println("Repo name: "+resultItems.get("reponame"));
+                logger.info("Extracting from repo {}", resultItems.getRequest());
+                ResultItems toLog = resultItems.get("reponame");
+                logger.info("Repo name: {}", toLog);
                 return RequestMatcher.MatchOther.YES;
             }
         };
@@ -42,7 +43,7 @@ public class PatternProcessorExample {
 
             @Override
             public RequestMatcher.MatchOther processPage(Page page) {
-                log.info("Extracting from " + page.getUrl());
+                logger.info("Extracting from {}", page.getUrl());
                 page.addTargetRequests(page.getHtml().links().regex("https://github\\.com/[\\w\\-]+/[\\w\\-]+").all());
                 page.addTargetRequests(page.getHtml().links().regex("https://github\\.com/[\\w\\-]+").all());
                 page.putField("username", page.getHtml().xpath("//span[@class='vcard-fullname']/text()").toString());
@@ -51,7 +52,8 @@ public class PatternProcessorExample {
 
             @Override
             public RequestMatcher.MatchOther processResult(ResultItems resultItems, Task task) {
-                System.out.println("User name: "+resultItems.get("username"));
+            	ResultItems toLog = resultItems.get("username");
+                logger.info("User name: {}", toLog);
                 return RequestMatcher.MatchOther.YES;
             }
         };

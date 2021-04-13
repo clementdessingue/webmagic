@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 0.3.2
  */
 public class ObjectFormatters {
+	
+	private ObjectFormatters() {}
 
     private static Map<Class, Class<? extends ObjectFormatter>> formatterMap = new ConcurrentHashMap<Class, Class<? extends ObjectFormatter>>();
 
@@ -21,9 +23,7 @@ public class ObjectFormatters {
     public static void put(Class<? extends ObjectFormatter> objectFormatter) {
         try {
             formatterMap.put(objectFormatter.newInstance().clazz(), objectFormatter);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

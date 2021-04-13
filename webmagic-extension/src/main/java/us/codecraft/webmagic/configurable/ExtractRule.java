@@ -77,21 +77,21 @@ public class ExtractRule {
 
     private Selector compileSelector() {
         switch (expressionType) {
-            case Css:
+            case CSS:
                 if (expressionParams.length >= 1) {
                     return $(expressionValue, expressionParams[0]);
                 } else {
                     return $(expressionValue);
                 }
-            case XPath:
+            case XPATH:
                 return xpath(expressionValue);
-            case Regex:
+            case REGEX:
                 if (expressionParams.length >= 1) {
                     return regex(expressionValue, Integer.parseInt(expressionParams[0]));
                 } else {
                     return regex(expressionValue);
                 }
-            case JsonPath:
+            case JSONPATH:
                 return new JsonPathSelector(expressionValue);
             default:
                 return xpath(expressionValue);

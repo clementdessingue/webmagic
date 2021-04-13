@@ -21,7 +21,7 @@ public class ZhihuPageProcessor implements PageProcessor {
             .addHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3")
             .setCharset("UTF-8");
 
-    private static final int voteNum = 1000;
+    private static final int VOTENUM = 1000;
 
 
     @Override
@@ -34,7 +34,7 @@ public class ZhihuPageProcessor implements PageProcessor {
         boolean exist = false;
         for(String answer:answers){
             String vote = new Html(answer).xpath("//div[@class='zm-votebar']//span[@class='count']/text()").toString();
-            if(Integer.valueOf(vote) >= voteNum){
+            if(Integer.valueOf(vote) >= VOTENUM){
                 page.putField("vote",vote);
                 page.putField("content",new Html(answer).xpath("//div[@class='zm-editable-content']"));
                 page.putField("userid", new Html(answer).xpath("//a[@class='author-link']/@href"));

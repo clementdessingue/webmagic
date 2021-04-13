@@ -14,31 +14,31 @@ import java.util.UUID;
  */
 public class FilePipelineTest {
 
-    private static ResultItems resultItems;
-    private static Task task;
+	private static ResultItems resultItems;
+	private static Task task;
 
-    @BeforeClass
-    public static void before() {
-        resultItems = new ResultItems();
-        resultItems.put("content", "webmagic 爬虫工具");
-        Request request = new Request("http://www.baidu.com");
-        resultItems.setRequest(request);
+	@BeforeClass
+	public static void before() {
+		resultItems = new ResultItems();
+		resultItems.put("content", "webmagic 爬虫工具");
+		Request request = new Request("http://www.baidu.com");
+		resultItems.setRequest(request);
 
-        task = new Task() {
-            @Override
-            public String getUUID() {
-                return UUID.randomUUID().toString();
-            }
+		task = new Task() {
+			@Override
+			public String getUUID() {
+				return UUID.randomUUID().toString();
+			}
 
-            @Override
-            public Site getSite() {
-                return null;
-            }
-        };
-    }
-    @Test
-    public void testProcess() {
-        FilePipeline filePipeline = new FilePipeline();
-        filePipeline.process(resultItems, task);
-    }
+			@Override
+			public Site getSite() {
+				return null;
+			}
+		};
+	}
+	@Test
+	public void testProcess() {
+		FilePipeline filePipeline = new FilePipeline();
+		filePipeline.process(resultItems, task);
+	}
 }

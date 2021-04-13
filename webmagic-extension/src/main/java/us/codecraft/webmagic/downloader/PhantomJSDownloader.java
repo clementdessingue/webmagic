@@ -18,8 +18,8 @@ import java.io.*;
 public class PhantomJSDownloader extends AbstractDownloader {
 
     private static Logger logger = LoggerFactory.getLogger(PhantomJSDownloader.class);
-    private static String crawlJsPath;
-    private static String phantomJsCommand = "phantomjs"; // default
+    private String crawlJsPath;
+    private String phantomJsCommand = "phantomjs"; // default
 
     private int retryNum;
     private int threadNum;
@@ -40,7 +40,7 @@ public class PhantomJSDownloader extends AbstractDownloader {
      */
     public PhantomJSDownloader(String phantomJsCommand) {
         this.initPhantomjsCrawlPath();
-        PhantomJSDownloader.phantomJsCommand = phantomJsCommand;
+        this.phantomJsCommand = phantomJsCommand;
     }
     
     /**
@@ -77,18 +77,18 @@ public class PhantomJSDownloader extends AbstractDownloader {
      * @param crawlJsPath crawlJsPath
      */
     public PhantomJSDownloader(String phantomJsCommand, String crawlJsPath) {
-      PhantomJSDownloader.phantomJsCommand = phantomJsCommand;
-      PhantomJSDownloader.crawlJsPath = crawlJsPath;
+      this.phantomJsCommand = phantomJsCommand;
+      this.crawlJsPath = crawlJsPath;
     }
     
     private void initPhantomjsCrawlPath() {
-        PhantomJSDownloader.crawlJsPath = new File(this.getClass().getResource("/").getPath()).getPath() + System.getProperty("file.separator") + "crawl.js ";
+        crawlJsPath = new File(this.getClass().getResource("/").getPath()).getPath() + System.getProperty("file.separator") + "crawl.js ";
     }
 
     @Override
     public Page download(Request request, Task task) {
         if (logger.isInfoEnabled()) {
-            logger.info("downloading page: " + request.getUrl());
+            logger.info("downloading page: {}", request.getUrl());
         }
         String content = getPage(request);
         if (content.contains("HTTP request failed")) {
@@ -126,7 +126,7 @@ public class PhantomJSDownloader extends AbstractDownloader {
             Process process = runtime.exec(phantomJsCommand + " " + crawlJsPath + " " + url);
             InputStream is = process.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuffer = new StringBuilder();
             String line;
             while ((line = br.readLine()) != null) {
                 stringBuffer.append(line).append("\n");

@@ -9,7 +9,7 @@ import us.codecraft.webmagic.model.annotation.ExtractBy;
  */
 public class GithubRepoApi {
 
-    @ExtractBy(type = ExtractBy.Type.JsonPath, value = "$.name",source = ExtractBy.Source.RawText)
+    @ExtractBy(type = ExtractBy.Type.JSONPATH, value = "$.name",source = ExtractBy.Source.RAWTEXT)
     private String name;
 
     public String getName() {

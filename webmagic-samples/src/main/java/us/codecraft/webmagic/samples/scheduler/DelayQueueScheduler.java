@@ -33,10 +33,6 @@ public class DelayQueueScheduler extends PriorityScheduler {
             this.request = request;
         }
 
-        private long getStartTime() {
-            return startTime;
-        }
-
         private Request getRequest() {
             return request;
         }

@@ -24,8 +24,8 @@ public class CompositePageProcessor implements PageProcessor {
     public void process(Page page) {
         for (SubPageProcessor subPageProcessor : subPageProcessors) {
             if (subPageProcessor.match(page.getRequest())) {
-                SubPageProcessor.MatchOther matchOtherProcessorProcessor = subPageProcessor.processPage(page);
-                if (matchOtherProcessorProcessor == null || matchOtherProcessorProcessor != SubPageProcessor.MatchOther.YES) {
+                RequestMatcher.MatchOther matchOtherProcessorProcessor = subPageProcessor.processPage(page);
+                if (matchOtherProcessorProcessor == null || matchOtherProcessorProcessor != RequestMatcher.MatchOther.YES) {
                     return;
                 }
             }

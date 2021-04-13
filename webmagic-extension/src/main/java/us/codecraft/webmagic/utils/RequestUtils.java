@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
  *         Time: 下午4:58
  */
 public abstract class RequestUtils {
+	
+	private RequestUtils() {}
 
     private static Pattern p4Range = Pattern.compile("\\[(\\d+)\\-(\\d+)\\]");
 

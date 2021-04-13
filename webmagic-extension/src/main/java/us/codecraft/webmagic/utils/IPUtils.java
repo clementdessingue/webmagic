@@ -10,7 +10,7 @@ import java.util.Enumeration;
  * @author code4crafer@gmail.com
  * @since 0.5.0
  */
-public abstract class IPUtils {
+public interface IPUtils {
 
     public static String getFirstNoLoopbackIPAddresses() throws SocketException {
 

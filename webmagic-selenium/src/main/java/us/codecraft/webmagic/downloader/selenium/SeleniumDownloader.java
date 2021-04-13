@@ -37,8 +37,6 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
 	private int poolSize = 1;
 
-	private static final String DRIVER_PHANTOMJS = "phantomjs";
-
 	/**
 	 * 新建
 	 *
@@ -54,10 +52,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 	 * 
 	 * @author bob.li.0718@gmail.com
 	 */
-	public SeleniumDownloader() {
-		// System.setProperty("phantomjs.binary.path",
-		// "/Users/Bingo/Downloads/phantomjs-1.9.7-macosx/bin/phantomjs");
-	}
+	public SeleniumDownloader() {}
 
 	/**
 	 * set sleep time to wait until load success
@@ -80,7 +75,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 			logger.warn("interrupted", e);
 			return null;
 		}
-		logger.info("downloading page " + request.getUrl());
+		logger.info("downloading page {}", request.getUrl());
 		webDriver.get(request.getUrl());
 		try {
 			Thread.sleep(sleepTime);

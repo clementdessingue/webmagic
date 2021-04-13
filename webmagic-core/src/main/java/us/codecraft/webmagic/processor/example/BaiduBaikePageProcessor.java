@@ -9,6 +9,8 @@ import us.codecraft.webmagic.processor.PageProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author code4crafter@gmail.com <br>
  * @since 0.4.0
@@ -34,17 +36,18 @@ public class BaiduBaikePageProcessor implements PageProcessor {
         Spider spider = Spider.create(new BaiduBaikePageProcessor()).thread(2);
         String urlTemplate = "http://baike.baidu.com/search/word?word=%s&pic=1&sug=1&enc=utf8";
         ResultItems resultItems = spider.<ResultItems>get(String.format(urlTemplate, "水力发电"));
-        System.out.println(resultItems);
+        Logger logger = Logger.getLogger(BaiduBaikePageProcessor.class);
+        logger.info(resultItems);
 
         //multidownload
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(String.format(urlTemplate,"风力发电"));
         list.add(String.format(urlTemplate,"太阳能"));
         list.add(String.format(urlTemplate,"地热发电"));
         list.add(String.format(urlTemplate,"地热发电"));
         List<ResultItems> resultItemses = spider.<ResultItems>getAll(list);
         for (ResultItems resultItemse : resultItemses) {
-            System.out.println(resultItemse.getAll());
+            logger.info(resultItemse.getAll());
         }
         spider.close();
     }

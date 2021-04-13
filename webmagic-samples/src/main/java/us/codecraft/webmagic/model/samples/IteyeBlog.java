@@ -16,7 +16,7 @@ public class IteyeBlog implements Blog{
     @ExtractBy("//title")
     private String title;
 
-    @ExtractBy(value = "div#blog_content",type = ExtractBy.Type.Css)
+    @ExtractBy(value = "div#blog_content",type = ExtractBy.Type.CSS)
     private String content;
 
     @Override

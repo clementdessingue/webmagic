@@ -18,22 +18,19 @@ public abstract class MultiKeyMapBase {
     @SuppressWarnings("rawtypes")
     private Class<? extends Map> protoMapClass = DEFAULT_CLAZZ;
 
-    public MultiKeyMapBase() {
+    protected MultiKeyMapBase() {
     }
 
     @SuppressWarnings("rawtypes")
-    public MultiKeyMapBase(Class<? extends Map> protoMapClass) {
+    protected MultiKeyMapBase(Class<? extends Map> protoMapClass) {
         this.protoMapClass = protoMapClass;
     }
 
     @SuppressWarnings("unchecked")
     protected <K, V2> Map<K, V2> newMap() {
         try {
-            return (Map<K, V2>) protoMapClass.newInstance();
-        } catch (InstantiationException e) {
-            throw new IllegalArgumentException("wrong proto type map "
-                    + protoMapClass);
-        } catch (IllegalAccessException e) {
+            return protoMapClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new IllegalArgumentException("wrong proto type map "
                     + protoMapClass);
         }

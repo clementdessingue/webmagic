@@ -21,12 +21,12 @@ public class ConfigurablePageProcessorTest {
     public void test() throws Exception {
         List<ExtractRule> extractRules = new ArrayList<ExtractRule>();
         ExtractRule extractRule = new ExtractRule();
-        extractRule.setExpressionType(ExpressionType.XPath);
+        extractRule.setExpressionType(ExpressionType.XPATH);
         extractRule.setExpressionValue("//title");
         extractRule.setFieldName("title");
         extractRules.add(extractRule);
         extractRule = new ExtractRule();
-        extractRule.setExpressionType(ExpressionType.XPath);
+        extractRule.setExpressionType(ExpressionType.XPATH);
         extractRule.setExpressionValue("//ul[@class='pagehead-actions']/li[1]//a[@class='social-count js-social-count']/text()");
         extractRule.setFieldName("star");
         extractRules.add(extractRule);

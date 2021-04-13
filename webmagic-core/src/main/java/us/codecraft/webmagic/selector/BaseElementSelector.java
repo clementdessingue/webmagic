@@ -25,7 +25,7 @@ public abstract class BaseElementSelector implements Selector, ElementSelector {
         if (text != null) {
             return selectList(Jsoup.parse(text));
         } else {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
     }
 
@@ -40,7 +40,7 @@ public abstract class BaseElementSelector implements Selector, ElementSelector {
         if (text != null) {
             return selectElements(Jsoup.parse(text));
         } else {
-            return new ArrayList<Element>();
+            return new ArrayList<>();
         }
     }
 

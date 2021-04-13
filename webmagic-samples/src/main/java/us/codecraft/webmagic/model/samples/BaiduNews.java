@@ -1,5 +1,8 @@
 package us.codecraft.webmagic.model.samples;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
@@ -24,10 +27,12 @@ public class BaiduNews {
     }
 
     public static void main(String[] args) {
+    	Logger logger = LoggerFactory.getLogger(BaiduNews.class);
         OOSpider ooSpider = OOSpider.create(Site.me().setSleepTime(0), BaiduNews.class);
         //single download
         BaiduNews baike = ooSpider.<BaiduNews>get("http://news.baidu.com/ns?tn=news&cl=2&rn=20&ct=1&fr=bks0000&ie=utf-8&word=httpclient");
-        System.out.println(baike);
+        String toLog = baike.toString();
+        logger.info(toLog);
 
         ooSpider.close();
     }

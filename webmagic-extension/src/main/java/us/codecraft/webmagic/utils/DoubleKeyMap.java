@@ -77,10 +77,7 @@ public class DoubleKeyMap<K1, K2, V> extends MultiKeyMapBase {
      * @return value
      */
     public synchronized V put(K1 key1, K2 key2, V value) {
-        if (map.get(key1) == null) {
-            //不加锁的话，多个线程有可能都会执行到这里
-            map.put(key1, this.<K2, V>newMap());
-        }
+    	map.computeIfAbsent(key1, k -> this.<K2, V>newMap());
         return get(key1).put(key2, value);
     }
 

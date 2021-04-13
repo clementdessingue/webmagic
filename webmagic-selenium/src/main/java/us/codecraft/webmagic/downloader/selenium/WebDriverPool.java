@@ -28,24 +28,22 @@ import java.util.concurrent.atomic.AtomicInteger;
  *         Time: 下午1:41 <br>
  */
 class WebDriverPool {
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private static Logger logger = LoggerFactory.getLogger(WebDriverPool.class);
 
-	private final static int DEFAULT_CAPACITY = 5;
+	private static final int DEFAULT_CAPACITY = 5;
 
 	private final int capacity;
 
-	private final static int STAT_RUNNING = 1;
+	private static final int STAT_RUNNING = 1;
 
-	private final static int STAT_CLODED = 2;
+	private static final int STAT_CLODED = 2;
 
 	private AtomicInteger stat = new AtomicInteger(STAT_RUNNING);
 
 	/*
 	 * new fields for configuring phantomJS
 	 */
-	private WebDriver mDriver = null;
-	private boolean mAutoQuitDriver = true;
-
+	private static WebDriver mDriver = null;
 	private static final String DEFAULT_CONFIG_FILE = "/data/webmagic/webmagic-selenium/config.ini";
 	private static final String DRIVER_FIREFOX = "firefox";
 	private static final String DRIVER_CHROME = "chrome";
@@ -62,7 +60,7 @@ class WebDriverPool {
 	 * @author bob.li.0718@gmail.com
 	 * @throws IOException
 	 */
-	public void configure() throws IOException {
+	public static void configure() throws IOException {
 		// Read config file
 		sConfig = new Properties();
 		String configFile = DEFAULT_CONFIG_FILE;
@@ -93,26 +91,16 @@ class WebDriverPool {
 			}
 			// "phantomjs_driver_path"
 			if (sConfig.getProperty("phantomjs_driver_path") != null) {
-				System.out.println("Test will use an external GhostDriver");
+				logger.info("Test will use an external GhostDriver");
 				sCaps.setCapability(
 						PhantomJSDriverService.PHANTOMJS_GHOSTDRIVER_PATH_PROPERTY,
 						sConfig.getProperty("phantomjs_driver_path"));
 			} else {
-				System.out
-						.println("Test will use PhantomJS internal GhostDriver");
+				logger.info("Test will use PhantomJS internal GhostDriver");
 			}
 		}
 
-		// Disable "web-security", enable all possible "ssl-protocols" and
-		// "ignore-ssl-errors" for PhantomJSDriver
-		// sCaps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new
-		// String[] {
-		// "--web-security=false",
-		// "--ssl-protocol=any",
-		// "--ignore-ssl-errors=true"
-		// });
-
-		ArrayList<String> cliArgsCap = new ArrayList<String>();
+		ArrayList<String> cliArgsCap = new ArrayList<>();
 		cliArgsCap.add("--web-security=false");
 		cliArgsCap.add("--ssl-protocol=any");
 		cliArgsCap.add("--ignore-ssl-errors=true");
@@ -127,11 +115,9 @@ class WebDriverPool {
 								.getProperty("phantomjs_driver_loglevel")
 								: "INFO") });
 
-		// String driver = sConfig.getProperty("driver", DRIVER_PHANTOMJS);
-
 		// Start appropriate Driver
 		if (isUrl(driver)) {
-			sCaps.setBrowserName("phantomjs");
+			sCaps.setBrowserName(DRIVER_PHANTOMJS);
 			mDriver = new RemoteWebDriver(new URL(driver), sCaps);
 		} else if (driver.equals(DRIVER_FIREFOX)) {
 			mDriver = new FirefoxDriver(sCaps);
@@ -149,7 +135,7 @@ class WebDriverPool {
 	 * @param urlString urlString
 	 * @return true means yes, otherwise no.
 	 */
-	private boolean isUrl(String urlString) {
+	private static boolean isUrl(String urlString) {
 		try {
 			new URL(urlString);
 			return true;
@@ -167,7 +153,7 @@ class WebDriverPool {
 	/**
 	 * store webDrivers available
 	 */
-	private BlockingDeque<WebDriver> innerQueue = new LinkedBlockingDeque<WebDriver>();
+	private BlockingDeque<WebDriver> innerQueue = new LinkedBlockingDeque<>();
 
 	public WebDriverPool(int capacity) {
 		this.capacity = capacity;
@@ -200,11 +186,6 @@ class WebDriverPool {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-
-					// ChromeDriver e = new ChromeDriver();
-					// WebDriver e = getWebDriver();
-					// innerQueue.add(e);
-					// webDriverList.add(e);
 				}
 			}
 
@@ -229,9 +210,8 @@ class WebDriverPool {
 			throw new IllegalStateException("Already closed!");
 		}
 		for (WebDriver webDriver : webDriverList) {
-			logger.info("Quit webDriver" + webDriver);
+			logger.info("Quit webDriver {}", webDriver);
 			webDriver.quit();
-			webDriver = null;
 		}
 	}
 

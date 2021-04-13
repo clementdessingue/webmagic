@@ -5,6 +5,6 @@ package us.codecraft.webmagic.configurable;
  */
 public enum ExpressionType {
 
-    XPath, Regex, Css, JsonPath;
+    XPATH, REGEX, CSS, JSONPATH;
 
 }

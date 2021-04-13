@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class AndSelector implements Selector {
 
-    private List<Selector> selectors = new ArrayList<Selector>();
+    private List<Selector> selectors = new ArrayList<>();
 
     public AndSelector(Selector... selectors) {
         for (Selector selector : selectors) {
@@ -36,19 +36,19 @@ public class AndSelector implements Selector {
 
     @Override
     public List<String> selectList(String text) {
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
         boolean first = true;
         for (Selector selector : selectors) {
             if (first) {
                 results = selector.selectList(text);
                 first = false;
             } else {
-                List<String> resultsTemp = new ArrayList<String>();
+                List<String> resultsTemp = new ArrayList<>();
                 for (String result : results) {
                     resultsTemp.addAll(selector.selectList(result));
                 }
                 results = resultsTemp;
-                if (results == null || results.size() == 0) {
+                if (results.isEmpty()) {
                     return results;
                 }
             }

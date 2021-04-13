@@ -11,6 +11,9 @@ import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Created by dolphineor on 2014-11-21.
  * <p>
@@ -36,6 +39,7 @@ public class PhantomJSPageProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) throws Exception {
+    	Logger logger = LoggerFactory.getLogger(PhantomJSPageProcessor.class);
         PhantomJSDownloader phantomDownloader = new PhantomJSDownloader().setRetryNum(3);
 
         CollectorPipeline<ResultItems> collectorPipeline = new ResultItemsCollectorPipeline();
@@ -48,7 +52,8 @@ public class PhantomJSPageProcessor implements PageProcessor {
                 .run();
 
         List<ResultItems> resultItemsList = collectorPipeline.getCollected();
-        System.out.println(resultItemsList.get(0).get("html").toString());
+        String toLog = resultItemsList.get(0).get("html").toString();
+        logger.info(toLog);
     }
 
 }

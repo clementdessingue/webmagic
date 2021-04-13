@@ -77,7 +77,7 @@ public class PageModelExtractorTest {
 
     public static class ModelJsonStr {
 
-        @ExtractBy(type = ExtractBy.Type.JsonPath, value = "$.name")
+        @ExtractBy(type = ExtractBy.Type.JSONPATH, value = "$.name")
         private String name;
 
     }

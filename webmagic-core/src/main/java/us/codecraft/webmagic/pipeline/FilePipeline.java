@@ -42,7 +42,7 @@ public class FilePipeline extends FilePersistentBase implements Pipeline {
             printWriter.println("url:\t" + resultItems.getRequest().getUrl());
             for (Map.Entry<String, Object> entry : resultItems.getAll().entrySet()) {
                 if (entry.getValue() instanceof Iterable) {
-                    Iterable value = (Iterable) entry.getValue();
+                    Iterable<Object> value = (Iterable<Object>) entry.getValue();
                     printWriter.println(entry.getKey() + ":");
                     for (Object o : value) {
                         printWriter.println(o);

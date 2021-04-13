@@ -18,6 +18,9 @@ import static us.codecraft.webmagic.selector.Selectors.xpath;
  * @author code4crafter@gmail.com
  */
 public class ZipCodePageProcessor implements PageProcessor {
+	
+	private final String provinceToString = "province";
+	private final String districtToString = "district";
 
     private Site site = Site.me().setCharset("gb2312")
             .setSleepTime(100);
@@ -39,7 +42,7 @@ public class ZipCodePageProcessor implements PageProcessor {
         for (String province : provinces) {
             String link = xpath("//@href").select(province);
             String title = xpath("/text()").select(province);
-            Request request = new Request(link).setPriority(0).putExtra("province", title);
+            Request request = new Request(link).setPriority(0).putExtra(provinceToString, title);
             page.addTargetRequest(request);
         }
     }
@@ -53,21 +56,21 @@ public class ZipCodePageProcessor implements PageProcessor {
             while (matcher.find()) {
                 String title = matcher.group(1);
                 String link = matcher.group(2);
-                Request request = new Request(link).setPriority(1).putExtra("province", page.getRequest().getExtra("province")).putExtra("district", title);
+                Request request = new Request(link).setPriority(1).putExtra(provinceToString, page.getRequest().getExtra(provinceToString)).putExtra(districtToString, title);
                 page.addTargetRequest(request);
             }
         }
     }
 
     private void processDistrict(Page page) {
-        String province = page.getRequest().getExtra("province").toString();
-        String district = page.getRequest().getExtra("district").toString();
+        String province = page.getRequest().getExtra(provinceToString).toString();
+        String district = page.getRequest().getExtra(districtToString).toString();
         String zipCode = page.getHtml().regex("<h2>邮编：(\\d+)</h2>").toString();
         page.putField("result", StringUtils.join(new String[]{province, district,
                 zipCode}, "\t"));
         List<String> links = page.getHtml().links().regex("http://www\\.ip138\\.com/\\d{6}[/]?$").all();
         for (String link : links) {
-            page.addTargetRequest(new Request(link).setPriority(2).putExtra("province", province).putExtra("district", district));
+            page.addTargetRequest(new Request(link).setPriority(2).putExtra(provinceToString, province).putExtra(districtToString, district));
         }
 
     }

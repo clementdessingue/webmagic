@@ -26,11 +26,8 @@ public class SpiderTest {
             }
         }).thread(1).addUrl("http://www.oschina.net/");
         spider.start();
-        Thread.sleep(10000);
         spider.stop();
-        Thread.sleep(10000);
         spider.start();
-        Thread.sleep(10000);
     }
 
     @Ignore("long time")

@@ -80,11 +80,11 @@ public class HttpClientDownloaderTest {
             @Override
             public void run() {
                 String charset = getCharsetByUrl("http://127.0.0.1:13423/header");
-                assertEquals(charset, "gbk");
+                assertEquals("gbk", charset);
                 charset = getCharsetByUrl("http://127.0.0.1:13423/meta4");
-                assertEquals(charset, "gbk");
+                assertEquals("gbk", charset);
                 charset = getCharsetByUrl("http://127.0.0.1:13423/meta5");
-                assertEquals(charset, "gbk");
+                assertEquals("gbk", charset);
             }
 
             private String getCharsetByUrl(String url) {

@@ -3,6 +3,7 @@ package us.codecraft.webmagic.selector;
 import com.alibaba.fastjson.JSON;
 import us.codecraft.xsoup.XTokenQueue;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class Json extends PlainText {
 
     public <T> List<T> toList(Class<T> clazz) {
         if (getFirstSourceText() == null) {
-            return null;
+            return Collections.emptyList();
         }
         return JSON.parseArray(getFirstSourceText(), clazz);
     }

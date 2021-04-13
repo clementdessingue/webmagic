@@ -10,12 +10,9 @@ import java.util.List;
  */
 public class PageMapper<T> {
 
-    private Class<T> clazz;
-
     private PageModelExtractor pageModelExtractor;
 
     public PageMapper(Class<T> clazz) {
-        this.clazz = clazz;
         this.pageModelExtractor = PageModelExtractor.create(clazz);
     }
 

@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
  * @since 0.1.0
  */
 public class UrlUtils {
+	
+	private UrlUtils() {}
 
     /**
      * canonicalizeUrl
@@ -55,6 +57,7 @@ public class UrlUtils {
      * @return new url
      * @deprecated
      */
+    @Deprecated
     public static String encodeIllegalCharacterInUrl(String url) {
         return url.replace(" ", "%20");
     }

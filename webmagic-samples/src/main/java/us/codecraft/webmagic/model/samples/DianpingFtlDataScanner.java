@@ -9,6 +9,9 @@ import us.codecraft.webmagic.model.annotation.TargetUrl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author yihua.huang@dianping.com <br>
  *         Date: 13-8-13 <br>
@@ -17,7 +20,9 @@ import java.util.List;
 @TargetUrl("http://*.alpha.dp/*")
 public class DianpingFtlDataScanner implements AfterExtractor {
 
-	@ExtractBy(value = "(DP\\.data\\(\\{.*\\}\\));", type = ExtractBy.Type.Regex, notNull = true, multi = true)
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
+	@ExtractBy(value = "(DP\\.data\\(\\{.*\\}\\));", type = ExtractBy.Type.REGEX, notNull = true, multi = true)
 	private List<String> data;
 
 	public static void main(String[] args) {
@@ -28,10 +33,12 @@ public class DianpingFtlDataScanner implements AfterExtractor {
 	@Override
 	public void afterProcess(Page page) {
 		if (data.size() > 1) {
-			System.err.println(page.getUrl());
+			String toLog = page.getUrl().toString();
+			logger.warn(toLog);
 		}
-		if (data.size() > 0 && data.get(0).length() > 100) {
-			System.err.println(page.getUrl());
+		if (! data.isEmpty() && data.get(0).length() > 100) {
+			String toLog = page.getUrl().toString();
+			logger.warn(toLog);
 		}
 	}
 }

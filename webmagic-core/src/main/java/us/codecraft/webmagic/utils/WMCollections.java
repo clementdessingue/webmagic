@@ -11,6 +11,8 @@ import java.util.Set;
  *         Time: 上午10:16
  */
 public class WMCollections {
+	
+	private WMCollections() {}
 
     public static <T> Set<T> newHashSet(T... t){
         Set<T> set = new HashSet<T>(t.length);
